@@ -63,11 +63,10 @@ const deleteProject = async (req, res) => {
     }
     try {
         await project.deleteOne();
-        res.json({msg: "Project deleted"});
+        return res.json({msg: "Project deleted"});
     } catch (error) {
         return res.status(400).json({msg: error.message});
     }
-    return res.json(project);
 };
 
 const addCollaborator = async (req, res) => {
