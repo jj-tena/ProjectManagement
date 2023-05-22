@@ -14,6 +14,8 @@ connectDB();
 
 app.use('/api/users', userController);
 
+app.use('/api/projects', projectController);
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
