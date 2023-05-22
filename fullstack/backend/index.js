@@ -3,6 +3,7 @@ import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import userController from "./controllers/userController.js";
 import projectController from "./controllers/projectController.js";
+import taskController from "./controllers/taskController.js";
 
 const app = express();
 
@@ -15,6 +16,8 @@ connectDB();
 app.use('/api/users', userController);
 
 app.use('/api/projects', projectController);
+
+app.use('/api/tasks', taskController);
 
 const PORT = process.env.PORT || 4000;
 
