@@ -17,7 +17,6 @@ const App = () => {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="forgot-password/:token" element={<ResetPassword />} />
           <Route path="verify-account/:id" element={<VerifyAccount />} />
-          
         </Route>
       </Routes>
     </BrowserRouter>
