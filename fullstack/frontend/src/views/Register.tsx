@@ -80,7 +80,7 @@ const Register = () => {
             </Link>
             <Link 
                 className='block text-center my-5 text-slate-500 uppercase text-sm'
-                to='/register'
+                to='/forgot-password'
             >
                 ¿Olvidaste tu contraseña?
             </Link>
