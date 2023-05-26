@@ -46,17 +46,18 @@ const login = async (req, res) => {
 }
 
 const verify = async (req, res) => {
-    const {token} = req.params;
-    const userVerified = await User.findOne({token});
+    const {id} = req.params;
+    console.log(id);
+    const userVerified = await User.findOne({token: id});
     if (!userVerified) {
-        const error = new Error("Token not valid");
+        const error = new Error("Token no válido");
         return res.status(403).json({msg: error.message});
     }
     try {
         userVerified.verified = true;
         userVerified.token = "";
         await userVerified.save();
-        return res.json({msg: "User verified"});
+        return res.json({msg: "Usuario verificado"});
     } catch (error) {
         return res.status(403).json({msg: error.message});
     }

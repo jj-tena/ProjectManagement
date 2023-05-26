@@ -22,5 +22,4 @@ export const emailRegister = async (data) => {
         <p>Si no creaste esta cuenta puedes ignorar el mensaje</p>
         `
     })
-
 }

@@ -6,7 +6,7 @@ const userController = express.Router();
 
 userController.post('/', register);
 userController.post('/login', login);
-userController.get('/verify/:token', verify);
+userController.get('/verify/:id', verify);
 userController.post('/forgot-password', forgotPassword);
 userController.post('/forgot-password/:token', modifyPassword);
 userController.get('/profile', checkAuth, profile);
