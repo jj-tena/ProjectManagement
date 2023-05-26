@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Alert from '../components/Alert';
+import axios, { AxiosError } from 'axios';
 
 const Register = () => {
 
@@ -10,7 +11,7 @@ const Register = () => {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [alert, setAlert] = useState({msg: '', error: false});
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if ([name, email, password, repeatPassword].includes('')) {
             setAlert({
@@ -32,6 +33,19 @@ const Register = () => {
                 error: true
             })
             return;
+        }
+        setAlert({msg: '', error: false});
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users`, {
+                name, email, password
+            });
+            setAlert({msg: response.data.msg, error: false});
+            setName('');
+            setEmail('');
+            setPassword('');
+            setRepeatPassword('');
+        } catch (error: any) {
+            setAlert({msg: error.response.data.msg, error: true});
         }
     }
 

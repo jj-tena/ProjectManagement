@@ -6,14 +6,14 @@ const register = async (req, res) => {
     const {email} = req.body;
     const userFound = await User.findOne({email});
     if (userFound) {
-        const error = new Error('User already registered');
+        const error = new Error('Usuario ya registrado');
         return res.status(400).json({msg: error.message});
     } 
     try {
         const user = new User(req.body);
         user.token = generateId();
         const userSaved = await user.save();
-        res.send(userSaved);
+        res.send({msg: 'Usuario creado correctamente. Revisa tu email para confirmar tu cuenta'});
     } catch (error) {
         console.log(error);
     }
