@@ -1,7 +1,7 @@
 import User from "../models/User.js"
 import { generateId } from "../utils/generateId.js";
 import { generateJWT } from "../utils/generateJWT.js";
-import { emailRegister } from "../utils/sendEmail.js";
+import { emailForgotPassword, emailRegister } from "../utils/sendEmail.js";
 
 const register = async (req, res) => {
     const {email} = req.body;
@@ -47,7 +47,6 @@ const login = async (req, res) => {
 
 const verify = async (req, res) => {
     const {id} = req.params;
-    console.log(id);
     const userVerified = await User.findOne({token: id});
     if (!userVerified) {
         const error = new Error("Token no válido");
@@ -67,31 +66,37 @@ const forgotPassword = async (req, res) => {
     const {email} = req.body;
     const userFound = await User.findOne({email});
     if (!userFound) {
-        const error = new Error("User not found");
+        const error = new Error("Usuario no encontrado");
         return res.status(403).json({msg: error.message});
     }
     try {
-        userFound.token = generateJWT();
+        userFound.token = generateId();
         await userFound.save();
-        res.json({msg: "We have sent you an email with the instructions to change your password"})
+        emailForgotPassword({
+            email: userFound.email,
+            name: userFound.name,
+            token: userFound.token
+        })
+        return res.json({msg: "Te hemos enviado un email con las instrucciones para cambiar tu contraseña"})
     } catch (error) {
         return res.status(403).json({msg: error.message});
     }
 }
 
 const modifyPassword = async (req, res) => {
+    console.log('HOLA')
     const {token} = req.params;
     const {password} = req.body;
     const userFound = await User.findOne({token});
     if (!userFound) {
-        const error = new Error("User not found");
+        const error = new Error("Usuario no encontrado");
         return res.status(403).json({msg: error.message});
     }
     try {
         userFound.password = password;
         userFound.token = "";
         await userFound.save();
-        return res.json({msg: "Password modified"});
+        return res.json({msg: "Contraseña modificada correctamente"});
     } catch (error) {
         return res.status(403).json({msg: error.message});
     }
